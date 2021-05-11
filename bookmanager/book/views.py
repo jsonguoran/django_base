@@ -5,6 +5,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # 导入redner模块
 from django.shortcuts import render
+
+# 导入模型类
+from .models import BookInfo, PeopleInfo
 # 定义试图函数
 
 
@@ -21,3 +24,11 @@ def postman(request):
     }
     return render(request, 'book/postman.html', context)
 
+
+def goods(request, year, month, day):
+    pub_date = str(year) + '-' + str(month) + '-' + str(day)
+    book = BookInfo.objects.filter(pub_date=pub_date)
+    books = []
+    for book_name in book:
+        books.append(book_name)
+    return HttpResponse(books)
