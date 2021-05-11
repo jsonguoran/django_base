@@ -14,3 +14,10 @@ def index(request):
     # 将上下文交给模板中进行处理，处理后视图响应给客户端
     return render(request, 'book/index.html', context)
 
+
+def postman(request):
+    context = {
+        'content':'来自Django这种用于postman测试的内容'
+    }
+    return render(request, 'book/postman.html', context)
+
