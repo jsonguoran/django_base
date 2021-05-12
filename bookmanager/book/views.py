@@ -32,3 +32,27 @@ def goods(request, year, month, day):
     for book_name in book:
         books.append(book_name)
     return HttpResponse(books)
+
+
+def get_best_book(request):
+    # 如果请求的url中没有对应的key，则value为0并赋值给变量
+    readcount = request.GET.getlist('readcount', 0)
+    commentcount = request.GET.getlist('commentcount', 0)
+    print(readcount, commentcount)
+    if len(commentcount) == 2 and len(readcount) == 1:
+        min_commentcount = commentcount[0]
+        max_commentcount = commentcount[-1]
+        books = BookInfo.objects.filter(readcount__gt=readcount[0], commentcount__gt=min_commentcount,commentcount__lt=max_commentcount)
+    if len(readcount) == 1 and len(commentcount) == 1:
+        books = BookInfo.objects.filter(readcount__gt=readcount[0], commentcount__gt=commentcount[0])
+    books_list = []
+    for book_name in books:
+        books_list.append(book_name)
+    return HttpResponse(books_list)
+
+
+def register(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    print(username, password)
+    return HttpResponse('用户注册成功!')
