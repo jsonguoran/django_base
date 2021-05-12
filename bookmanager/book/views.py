@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -56,3 +58,13 @@ def register(request):
     password = request.POST.get('password')
     print(username, password)
     return HttpResponse('用户注册成功!')
+
+def parse_json(request):
+    json_data = request.body
+    req_data = json.loads(json_data)
+    print(req_data['username'], req_data['password'])
+    return HttpResponse('body中json格式数据解析成功!')
+
+
+def phone_register(request, phone):
+    return HttpResponse(phone)
