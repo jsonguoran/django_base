@@ -105,9 +105,11 @@ def get_cookie(request):
 
 
 def use_session(request):
-    request.session['username'] = 'pinginglab'
     if 'username' in request.session:
         username = request.session['username']
         response = HttpResponse('Your username is {}'.format(username))
-    del request.session['username']
-    return response
+        del request.session['username']
+        return response
+    else:
+        request.session['username'] = 'pinginglab'
+        return HttpResponse('no session.')
