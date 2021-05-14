@@ -1,10 +1,13 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 # 导入HTTPResponse模块
 from django.http import HttpResponse
+
+from django.http import JsonResponse
+
 # 导入redner模块
 from django.shortcuts import render
 
@@ -68,3 +71,43 @@ def parse_json(request):
 
 def phone_register(request, phone):
     return HttpResponse(phone)
+
+
+def response(request):
+    content = {
+        'name': 'pinginglab',
+        'pass': 'password',
+    }
+    return JsonResponse(content)
+
+
+def redirect_test(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    print(username, password)
+    return redirect('/main')
+
+def web_main(request):
+    return HttpResponse('这是注册成功后的网站主页!')
+
+
+def set_cookie(request):
+    response = HttpResponse('set_cookie')
+    response.set_cookie('username', 'pinginglab')
+    return response
+
+
+def get_cookie(request):
+    if 'username' in request.COOKIES:
+        return HttpResponse('Your username is {0}'.format(request.COOKIES['username']))
+    else:
+        return HttpResponse('No Cookies.')
+
+
+def use_session(request):
+    request.session['username'] = 'pinginglab'
+    if 'username' in request.session:
+        username = request.session['username']
+        response = HttpResponse('Your username is {}'.format(username))
+    del request.session['username']
+    return response
