@@ -12,6 +12,10 @@ from .views import web_main
 from .views import set_cookie
 from .views import get_cookie
 from .views import use_session
+from .views import set_session
+from .views import get_session
+from .views import session_test
+from .views import book_list
 
 
 urlpatterns = [
@@ -27,5 +31,9 @@ urlpatterns = [
     path('main/', web_main),
     path('set_cookie/', set_cookie),
     path('get_cookie/', get_cookie),
-    path('use_session/', use_session)
+    path('use_session/', use_session),
+    path('set_session/', set_session),
+    path('get_session/', get_session),
+    path('session_test/', session_test),
+    path('books/', book_list)
 ]

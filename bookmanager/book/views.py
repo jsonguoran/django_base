@@ -108,8 +108,39 @@ def use_session(request):
     if 'username' in request.session:
         username = request.session['username']
         response = HttpResponse('Your username is {}'.format(username))
-        del request.session['username']
+        # del request.session['username']
         return response
     else:
         request.session['username'] = 'pinginglab'
         return HttpResponse('no session.')
+
+
+def set_session(request):
+    if 'username' in request.session:
+        username = request.session['username']
+        response = HttpResponse('Your username is {}'.format(username))
+        return response
+    else:
+        request.session['username'] = 'pinginglab'
+        return HttpResponse('login successed.')
+
+
+def get_session(request):
+    username = request.session['username']
+    response = HttpResponse('Your username is {}'.format(username))
+    return response
+
+from django.contrib.sessions.models import Session
+def session_test(request):
+    # sid = request.COOKIES['sessionid']
+    sid = request.session.session_key
+    s = Session.objects.get(pk=sid)
+    s_info = 'Session ID:{} <br>Expire_date:{} <br>Data:{}'.format(sid,s.expire_date,s.get_decoded())
+    return HttpResponse(s_info)
+
+
+def book_list(request):
+    books = BookInfo.objects.all()
+    print(books)
+    request.session['books'] = books
+    return render(request, 'book/books.html', locals())
